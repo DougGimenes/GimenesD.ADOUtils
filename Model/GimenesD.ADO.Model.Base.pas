@@ -18,29 +18,29 @@ type
 
     procedure Editar();
     procedure Inserir();
-    function PrepararQuery(): TADOQuery;      
-    function FormarFiltro(ACodigo: String = ''): String;
-    function SelecionarValorPorTipo(AClassName: String; AValor: TValue): String;
+    function PrepararQuery(): TADOQuery;
+    function FormarFiltro(ACodigo: string = ''): string;
+    function SelecionarValorPorTipo(AClassName: string; AValor: TValue): string;
   protected
-    CampoCodigo: String;
+    CampoCodigo:      string;
     CamposNaoInserir: TStringList;
-    
+
     function RetornarCodigo(): TValue;
     procedure DeterminarCampoCodigo(); virtual; abstract;
   public
     property Codigo: TValue read RetornarCodigo;
-  
+
     procedure Gravar();
     procedure Excluir();
 
-    constructor Create(AConexao: TADOConnection; ACodigo: String = ''); overload;
+    constructor Create(AConexao: TADOConnection; ACodigo: string = ''); overload;
   end;
 
 implementation
 
-{ TObjetoBase }
+{TObjetoBase}
 
-constructor TObjetoBase.Create(AConexao: TADOConnection; ACodigo: String);
+constructor TObjetoBase.Create(AConexao: TADOConnection; ACodigo: string);
 var
   QrySelecionar: TADOQuery;
   Contexto:      TRttiContext;
@@ -55,7 +55,7 @@ begin
 
   if ACodigo <> '' then
   begin
-    Tipo := Contexto.GetType(Self.ClassType.ClassInfo);
+    Tipo          := Contexto.GetType(Self.ClassType.ClassInfo);
     QrySelecionar := Self.PrepararQuery();
     QrySelecionar.SQL.Clear();
     QrySelecionar.SQL.Add('SELECT * FROM ' + (Self.ClassType.ClassName).Substring(1));
@@ -82,10 +82,10 @@ var
   Tipo:        TRttiType;
   Propriedade: TRttiProperty;
   Mock, Cont:  Integer;
-  Valor, sql:       String;
-begin      
+  Valor, Sql:  string;
+begin
   Tipo := Contexto.GetType(Self.ClassType.ClassInfo);
-  
+
   QryObjeto := Self.PrepararQuery();
   QryObjeto.SQL.Clear();
   QryObjeto.SQL.Add('UPDATE ' + (Self.ClassType.ClassName).Substring(1));
@@ -93,18 +93,18 @@ begin
 
   Cont := 0;
   for Propriedade in Tipo.GetProperties() do
-  begin  
+  begin
     if (Propriedade.Name = Self.CampoCodigo) or (Self.CamposNaoInserir.Find(Propriedade.Name, Mock)) or (not Propriedade.IsWritable) then
     begin
       Continue;
     end;
-    
+
     Valor := Self.SelecionarValorPorTipo(Propriedade.PropertyType.ToString, Propriedade.GetValue(Self));
     QryObjeto.SQL.Add(IfThen(Cont > 0, ',' + Propriedade.Name + ' = ' + Valor, Propriedade.Name + ' = ' + Valor));
     Inc(Cont)
-  end; 
+  end;
   QryObjeto.SQL.Add('WHERE ' + Self.FormarFiltro());
-  
+
   Sql := QryObjeto.SQL.Text;
   QryObjeto.ExecSQL();
 end;
@@ -120,12 +120,12 @@ begin
   QryObjeto.ExecSQL();
 end;
 
-function TObjetoBase.FormarFiltro(ACodigo: String): String;
+function TObjetoBase.FormarFiltro(ACodigo: string): string;
 var
   Contexto:    TRttiContext;
   Tipo:        TRttiType;
   Propriedade: TRttiProperty;
-  Valor:       String;
+  Valor:       string;
 begin
   Tipo := Contexto.GetType(Self.ClassType.ClassInfo);
   if ACodigo = '' then
@@ -165,10 +165,10 @@ var
   Tipo:        TRttiType;
   Propriedade: TRttiProperty;
   Cont, Mock:  Integer;
-  Valor:       String;
+  Valor:       string;
 begin
   Tipo := Contexto.GetType(Self.ClassType.ClassInfo);
-  
+
   QryObjeto := Self.PrepararQuery();
   QryObjeto.SQL.Clear();
   QryObjeto.SQL.Add('INSERT INTO ' + (Self.ClassType.ClassName).Substring(1));
@@ -184,26 +184,26 @@ begin
     end;
   end;
   QryObjeto.SQL.Add(')');
-  
+
   QryObjeto.SQL.Add('VALUES (');
   Cont := 0;
   for Propriedade in Tipo.GetProperties() do
   begin
-    if (Propriedade.IsWritable) and (not (Self.CamposNaoInserir.Find(Propriedade.Name, Mock))) then
+    if (Propriedade.IsWritable) and (not(Self.CamposNaoInserir.Find(Propriedade.Name, Mock))) then
     begin
       Valor := Self.SelecionarValorPorTipo(Propriedade.PropertyType.ToString, Propriedade.GetValue(Self));
       QryObjeto.SQL.Add(IfThen(Cont > 0, ',' + Valor, Valor));
       Inc(Cont);
     end;
-  end; 
+  end;
   QryObjeto.SQL.Add(')');
-  
+
   QryObjeto.ExecSQL();
 end;
 
 function TObjetoBase.PrepararQuery: TADOQuery;
 begin
-  Result := TADOQuery.Create(nil);
+  Result            := TADOQuery.Create(nil);
   Result.Connection := Self.Conexao;
 end;
 
@@ -218,13 +218,13 @@ begin
   begin
     if Propriedade.Name = Self.CampoCodigo then
     begin
-      Result := Propriedade.GetValue(Self);    
+      Result := Propriedade.GetValue(Self);
       Exit;
     end;
   end;
 end;
 
-function TObjetoBase.SelecionarValorPorTipo(AClassName: String; AValor: TValue): String;
+function TObjetoBase.SelecionarValorPorTipo(AClassName: string; AValor: TValue): string;
 begin
   if UpperCase(AClassName) = 'STRING' then
   begin
