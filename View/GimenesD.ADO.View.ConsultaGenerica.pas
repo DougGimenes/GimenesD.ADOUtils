@@ -17,7 +17,8 @@ uses
   Vcl.StdCtrls,
   Vcl.Grids,
   Vcl.DBGrids,
-  Data.Win.ADODB;
+  Data.Win.ADODB,
+  GimenesD.Utils.Controller.Excel, Vcl.Menus;
 
 type
   TFrmConsultaBase = class(TForm)
@@ -28,13 +29,14 @@ type
     TimConsulta: TTimer;
     QryAutoComplete: TADOQuery;
     PnlMain: TPanel;
+    PmnMenuExcel: TPopupMenu;
+    MniExportarExcel: TMenuItem;
     procedure DbgConsultaDblClick(Sender: TObject);
-    procedure DbgConsultaKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure DbgConsultaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure TimConsultaTimer(Sender: TObject);
     procedure EdtConsultaChange(Sender: TObject);
-    procedure EdtConsultaKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure EdtConsultaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure MniExportarExcelClick(Sender: TObject);
   protected
     { Private declarations }
     FCodigoConsultado: Integer;
@@ -159,6 +161,14 @@ begin
   Self.QryConsulta.Filter := Self.FormarFiltro();
   Self.QryConsulta.Filtered := True;
   Self.QryConsulta.EnableControls();
+end;
+
+procedure TFrmConsultaBase.MniExportarExcelClick(Sender: TObject);
+var
+  Excel: TExcel;
+begin
+  Excel := TExcel.Create(Self.QryConsulta);
+  Excel.DadosParaExcel(True, Self.Caption, 'Pesquisa por: ' + Self.EdtConsulta.Text);
 end;
 
 procedure TFrmConsultaBase.TimConsultaTimer(Sender: TObject);

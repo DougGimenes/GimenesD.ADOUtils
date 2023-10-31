@@ -35,6 +35,7 @@ object FrmConsultaBase: TFrmConsultaBase
       Anchors = [akLeft, akTop, akRight, akBottom]
       DataSource = DsConsulta
       Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+      PopupMenu = PmnMenuExcel
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
@@ -77,5 +78,13 @@ object FrmConsultaBase: TFrmConsultaBase
     Parameters = <>
     Left = 120
     Top = 128
+  end
+  object PmnMenuExcel: TPopupMenu
+    Left = 120
+    Top = 176
+    object MniExportarExcel: TMenuItem
+      Caption = 'Exportar para Excel'
+      OnClick = MniExportarExcelClick
+    end
   end
 end
