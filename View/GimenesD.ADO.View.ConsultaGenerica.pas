@@ -97,6 +97,8 @@ end;
 procedure TFrmConsultaBase.EdtConsultaChange(Sender: TObject);
 var
   Inicial : Integer;
+  TextoCompleto: String;
+  I: Integer;
 begin
   inherited;
   if not Self.Apagando then
@@ -106,7 +108,16 @@ begin
     Self.QryAutoComplete.SQL.Text := Self.FormarSQLAutoComplete();
     Self.QryAutoComplete.Open();
 
-    Self.EdtConsulta.Text := Self.EdtConsulta.Text + Self.QryAutoComplete.Fields[0].AsString.Substring(Inicial);
+    for I := 0 to Self.QryAutoComplete.Fields.Count - 1 do
+    begin
+      if Pos(UpperCase(Self.EdtConsulta.Text), UpperCase(Self.QryAutoComplete.Fields[I].AsString)) = 1 then
+      begin
+        TextoCompleto := Self.QryAutoComplete.Fields[I].AsString;
+        Break;
+      end;
+    end;
+
+    Self.EdtConsulta.Text := Self.EdtConsulta.Text + TextoCompleto.Substring(Inicial);
     Self.EdtConsulta.SelStart := Inicial;
     Self.EdtConsulta.SelLength := Length(Self.EdtConsulta.Text) - Inicial;
   end;
