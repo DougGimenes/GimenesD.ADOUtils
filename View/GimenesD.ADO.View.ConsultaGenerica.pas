@@ -35,6 +35,7 @@ type
     procedure EdtConsultaChange(Sender: TObject);
     procedure EdtConsultaKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure FormCreate(Sender: TObject);
   protected
     { Private declarations }
     FCodigoConsultado: Integer;
@@ -159,6 +160,11 @@ begin
   Self.QryConsulta.Filter := Self.FormarFiltro();
   Self.QryConsulta.Filtered := True;
   Self.QryConsulta.EnableControls();
+end;
+
+procedure TFrmConsultaBase.FormCreate(Sender: TObject);
+begin
+  Self.EdtConsulta.SetFocus();
 end;
 
 procedure TFrmConsultaBase.TimConsultaTimer(Sender: TObject);
