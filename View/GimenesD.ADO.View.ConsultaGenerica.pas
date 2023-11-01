@@ -37,6 +37,7 @@ type
     procedure EdtConsultaChange(Sender: TObject);
     procedure EdtConsultaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure MniExportarExcelClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   protected
     { Private declarations }
     FCodigoConsultado: Integer;
@@ -171,7 +172,7 @@ begin
   Excel.DadosParaExcel(True, Self.Caption, 'Pesquisa por: ' + Self.EdtConsulta.Text);
 end;
 
-procedure TFrmConsultaBase.FormCreate(Sender: TObject);
+procedure TFrmConsultaBase.FormShow(Sender: TObject);
 begin
   Self.EdtConsulta.SetFocus();
 end;
