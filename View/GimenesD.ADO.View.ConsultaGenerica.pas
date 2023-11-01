@@ -35,7 +35,7 @@ type
     procedure EdtConsultaChange(Sender: TObject);
     procedure EdtConsultaKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   protected
     { Private declarations }
     FCodigoConsultado: Integer;
@@ -162,7 +162,7 @@ begin
   Self.QryConsulta.EnableControls();
 end;
 
-procedure TFrmConsultaBase.FormCreate(Sender: TObject);
+procedure TFrmConsultaBase.FormShow(Sender: TObject);
 begin
   Self.EdtConsulta.SetFocus();
 end;
