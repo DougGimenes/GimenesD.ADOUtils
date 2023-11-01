@@ -171,6 +171,11 @@ begin
   Excel.DadosParaExcel(True, Self.Caption, 'Pesquisa por: ' + Self.EdtConsulta.Text);
 end;
 
+procedure TFrmConsultaBase.FormCreate(Sender: TObject);
+begin
+  Self.EdtConsulta.SetFocus();
+end;
+
 procedure TFrmConsultaBase.TimConsultaTimer(Sender: TObject);
 begin
   inherited;

@@ -12,6 +12,7 @@ object FrmConsultaBase: TFrmConsultaBase
   Font.Style = []
   OldCreateOrder = True
   Position = poMainFormCenter
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 18
   object PnlMain: TPanel
