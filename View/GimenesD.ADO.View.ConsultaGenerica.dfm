@@ -10,10 +10,8 @@ object FrmConsultaBase: TFrmConsultaBase
   Font.Height = -16
   Font.Name = 'Arial'
   Font.Style = []
-  OldCreateOrder = True
   Position = poMainFormCenter
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 18
   object PnlMain: TPanel
     Left = 0
@@ -31,7 +29,7 @@ object FrmConsultaBase: TFrmConsultaBase
     object DbgConsulta: TDBGrid
       Left = 10
       Top = 56
-      Width = 627
+      Width = 625
       Height = 277
       Anchors = [akLeft, akTop, akRight, akBottom]
       DataSource = DsConsulta
@@ -49,9 +47,12 @@ object FrmConsultaBase: TFrmConsultaBase
     object EdtConsulta: TEdit
       Left = 10
       Top = 12
-      Width = 627
+      Width = 625
       Height = 26
+      Hint = 'Precione enter com o campo vazio para exibir todos'
       Anchors = [akLeft, akTop, akRight]
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 1
       TextHint = 'Consulta'
       OnChange = EdtConsultaChange
