@@ -18,7 +18,8 @@ uses
   Vcl.Grids,
   Vcl.DBGrids,
   Data.Win.ADODB,
-  GimenesD.Utils.Controller.Excel, Vcl.Menus;
+  GimenesD.Utils.Controller.Excel,
+  Vcl.Menus;
 
 type
   TFrmConsultaBase = class(TForm)
@@ -164,17 +165,17 @@ begin
   Self.QryConsulta.EnableControls();
 end;
 
+procedure TFrmConsultaBase.FormShow(Sender: TObject);
+begin
+  Self.EdtConsulta.SetFocus();
+end;
+
 procedure TFrmConsultaBase.MniExportarExcelClick(Sender: TObject);
 var
   Excel: TExcel;
 begin
   Excel := TExcel.Create(Self.QryConsulta);
   Excel.DadosParaExcel(True, Self.Caption, 'Pesquisa por: ' + Self.EdtConsulta.Text);
-end;
-
-procedure TFrmConsultaBase.FormShow(Sender: TObject);
-begin
-  Self.EdtConsulta.SetFocus();
 end;
 
 procedure TFrmConsultaBase.TimConsultaTimer(Sender: TObject);

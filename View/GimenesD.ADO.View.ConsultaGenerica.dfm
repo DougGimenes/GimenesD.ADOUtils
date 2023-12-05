@@ -23,13 +23,15 @@ object FrmConsultaBase: TFrmConsultaBase
     Color = clWhite
     ParentBackground = False
     TabOrder = 0
+    ExplicitWidth = 646
+    ExplicitHeight = 344
     DesignSize = (
       648
       352)
     object DbgConsulta: TDBGrid
       Left = 10
       Top = 56
-      Width = 625
+      Width = 621
       Height = 277
       Anchors = [akLeft, akTop, akRight, akBottom]
       DataSource = DsConsulta
@@ -47,7 +49,7 @@ object FrmConsultaBase: TFrmConsultaBase
     object EdtConsulta: TEdit
       Left = 10
       Top = 12
-      Width = 625
+      Width = 621
       Height = 26
       Hint = 'Precione enter com o campo vazio para exibir todos'
       Anchors = [akLeft, akTop, akRight]
@@ -57,6 +59,7 @@ object FrmConsultaBase: TFrmConsultaBase
       TextHint = 'Consulta'
       OnChange = EdtConsultaChange
       OnKeyDown = EdtConsultaKeyDown
+      ExplicitWidth = 619
     end
   end
   object QryConsulta: TADOQuery

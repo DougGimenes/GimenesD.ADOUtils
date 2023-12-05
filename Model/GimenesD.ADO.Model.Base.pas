@@ -127,22 +127,24 @@ var
   Valor:       String;
 begin
   Tipo := Contexto.GetType(Self.ClassType.ClassInfo);
-  if ACodigo = '' then
+
+  for Propriedade in Tipo.GetProperties() do
   begin
-    for Propriedade in Tipo.GetProperties() do
+    if Propriedade.Name = Self.CampoCodigo then
     begin
-      if Propriedade.Name = Self.CampoCodigo then
+      if ACodigo = '' then
       begin
         Valor := Self.SelecionarValorPorTipo(Propriedade.PropertyType.ToString, Propriedade.GetValue(Self));
+      end
+      else
+      begin
+        Valor := Self.SelecionarValorPorTipo(Propriedade.PropertyType.ToString, ACodigo);
       end;
+      break;
     end;
-
-    Result := Self.CampoCodigo + ' = ' + Valor;
-  end
-  else
-  begin
-    Result := Self.CampoCodigo + ' = ' + ACodigo;
   end;
+
+  Result := Self.CampoCodigo + ' = ' + Valor;
 end;
 
 procedure TObjetoBase.Gravar;
