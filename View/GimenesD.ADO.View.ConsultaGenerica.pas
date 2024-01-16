@@ -19,7 +19,8 @@ uses
   Vcl.DBGrids,
   Data.Win.ADODB,
   GimenesD.Utils.Controller.Excel,
-  Vcl.Menus;
+  Vcl.Menus,
+  System.Character;
 
 type
   TFrmConsultaBase = class(TForm)
@@ -39,6 +40,7 @@ type
     procedure EdtConsultaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure MniExportarExcelClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   protected
     { Private declarations }
     FCodigoConsultado: Integer;
@@ -87,14 +89,33 @@ begin
   Self.Close();
 end;
 
-procedure TFrmConsultaBase.DbgConsultaKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TFrmConsultaBase.DbgConsultaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  TextoCompleto: String;
+  Tecla: Char;
 begin
   inherited;
-  if Key = VK_Return then
+  if (Key = VK_Return) and (Self.QryConsulta.State = dsBrowse) and (Self.QryConsulta.RecordCount > 0) then
   begin
     Self.FinalizarConsulta();
     Self.Close();
+  end
+  else
+  begin
+    Tecla := Char(Key);
+    if Tecla.IsLetterOrDigit then
+    begin
+      Self.EdtConsulta.Text := Tecla;
+      Self.EdtConsulta.SetFocus();
+
+      Self.EdtConsulta.Text := Self.EdtConsulta.Text + TextoCompleto.Substring(1);
+      Self.EdtConsulta.SelStart := 1;
+      Self.EdtConsulta.SelLength := Length(Self.EdtConsulta.Text) - 1;
+    end
+    else if (Key = VK_Return) then
+    begin
+      Self.Filtrar();
+    end;
   end;
 end;
 
@@ -165,9 +186,20 @@ begin
   Self.QryConsulta.EnableControls();
 end;
 
+procedure TFrmConsultaBase.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if not Self.EdtConsulta.Focused then
+  begin
+    Self.EdtConsulta.SetFocus();
+    Self.EdtConsulta.Text := Key.ToString();
+  end;
+end;
+
 procedure TFrmConsultaBase.FormShow(Sender: TObject);
 begin
-  Self.EdtConsulta.SetFocus();
+//  Self.EdtConsulta.SetFocus();
+//  Application.ActivateHint(Self.EdtConsulta.ClientOrigin);
+
 end;
 
 procedure TFrmConsultaBase.MniExportarExcelClick(Sender: TObject);
