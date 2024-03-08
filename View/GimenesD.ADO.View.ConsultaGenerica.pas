@@ -188,6 +188,11 @@ end;
 
 procedure TFrmConsultaBase.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
+  if Key = VK_ESCAPE then
+  begin
+    Self.Close();
+  end;
+
   if not Self.EdtConsulta.Focused then
   begin
     Self.EdtConsulta.SetFocus();

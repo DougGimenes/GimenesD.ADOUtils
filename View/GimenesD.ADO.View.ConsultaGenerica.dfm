@@ -10,6 +10,7 @@ object FrmConsultaBase: TFrmConsultaBase
   Font.Height = -16
   Font.Name = 'Arial'
   Font.Style = []
+  KeyPreview = True
   Position = poMainFormCenter
   OnKeyDown = FormKeyDown
   OnShow = FormShow
@@ -60,6 +61,7 @@ object FrmConsultaBase: TFrmConsultaBase
       TextHint = 'Consulta - Pressione enter com o campo vazio para exibir todos'
       OnChange = EdtConsultaChange
       OnKeyDown = EdtConsultaKeyDown
+      ExplicitWidth = 622
     end
   end
   object QryConsulta: TADOQuery
